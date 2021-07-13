@@ -70,6 +70,7 @@ REQUIRES = [
     "nibabel>=2.4.0",
     "scikit-image==0.15.0",
     "scikit-learn>=0.21.3",
+    "nilearn>=0.5.2",
     "boto3>=1.12.27",
     "torch>=1.8.1",
     "torchvision>=0.9.1"
