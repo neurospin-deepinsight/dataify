@@ -23,10 +23,7 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
         return MagicMock(Module=object, VGG=object, ResNet=object,
                          DenseNet=object, Inception3=object)
-MOCK_MODULES = [
-    'torch', 'torch.nn', 'torch.nn.functional', 'torch.utils',
-    'torch.utils.data', 'torch.autograd', 'torch.nn.modules',
-    'torch.nn.modules.loss']
+MOCK_MODULES = []
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 installdir = os.path.abspath("../..")
@@ -36,9 +33,7 @@ if "PYTHONPATH" in env:
 else:
     env["PYTHONPATH"] = installdir
 cmd = ["sphinxdoc", "-v 2", "-p",  installdir, "-n", "dataify", "-o", "..",
-       "-m"] + MOCK_MODULES + ["matplotlib", "matplotlib.pyplot",
-       "matplotlib.colors", "mpl_toolkits.mplot3d",
-       "mpl_toolkits.mplot3d.art3d", "-r", "object", "-k", "Module",
+       "-m"] + MOCK_MODULES + ["-r", "object", "-k", "Module",
         "-i", "dataify"]
 subprocess.check_call(cmd, env=env)
 sys.path.insert(0, installdir)
