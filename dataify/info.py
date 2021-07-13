@@ -66,7 +66,7 @@ REQUIRES = [
     "scipy>=0.19.1",
     "requests>=2.9.1",
     "pandas>=0.24.2",
-    "anndata>=0.7.5",
+    "anndata==0.7.5",
     "nibabel>=2.4.0",
     "scikit-image==0.15.0",
     "scikit-learn>=0.21.3",
