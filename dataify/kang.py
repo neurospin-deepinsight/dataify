@@ -101,11 +101,11 @@ class SingleCellRNASeqDataset(Dataset):
             membership_mask = data.varm["annotations"].astype(bool).T
             dataset = {
                 "X": data.X,
-                "membership_mask": membership_mask,
-                "obs_names": data.obs_names,
-                "var_names": data.var_names,
-                "obs": data.obs,
-                "varm": data.varm}
+                "membership_mask": membership_mask.to_numpy(),
+                "obs_names": data.obs_names.to_numpy(),
+                "var_names": data.var_names.to_numpy(),
+                "obs": data.obs.to_numpy(),
+                "annotations": data.varm["annotations"].to_numpy()}
 
             # Save dataset
             np.savez(self.data_file, **dataset)
@@ -130,11 +130,12 @@ def load_annotations(gmt, genes, min_genes=10):
 
 def parse_gmt(path, symbols=None, min_genes=10):
     lut = dict()
-    for line in open(path, "r"):
-        key, _, *genes = line.strip().split()
-        if symbols is not None:
-            genes = symbols.intersection(genes).tolist()
-        if len(genes) < min_genes:
-            continue
-        lut[key] = genes
+    with open(path, "r") as of:
+        for line in of.readlines():
+            key, _, *genes = line.strip().split()
+            if symbols is not None:
+                genes = symbols.intersection(genes).tolist()
+            if len(genes) < min_genes:
+                continue
+            lut[key] = genes
     return lut
