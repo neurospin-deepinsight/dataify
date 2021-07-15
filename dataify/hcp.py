@@ -23,7 +23,7 @@ from scipy import ndimage
 from torch.utils.data import Dataset
 
 
-def HCPAnatDataset(Dataset):
+class HCPAnatDataset(Dataset):
     """ Create the HCP T1/brain mask dataset.
 
     Go to 'https://db.humanconnectome.org' and get an account and log in.
