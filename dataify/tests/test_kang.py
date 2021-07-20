@@ -45,7 +45,8 @@ class TestSingleCellRNASeqDataset(unittest.TestCase):
             dataset = SingleCellRNASeqDataset(self.root, train=True)
         dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
         batch_data, batch_labels = next(iter(dataloader))
-        self.logger.debug(batch_data.shape, len(batch_labels))
+        self.logger.debug(batch_data.shape)
+        self.logger.debug(len(batch_labels))
         self.logger.debug(dataset.data["membership_mask"])
 
 
