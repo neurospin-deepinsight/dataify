@@ -75,7 +75,7 @@ class DSpritesDataset(Dataset):
         return self.size
 
     def __getitem__(self, idx):
-        image = np.expand_dims(self.X[idx], axis=0)
+        image = np.expand_dims(self.X[idx], axis=0).astype(np.float32)
         latent_vals = self.lfactors[idx]
         if self.transform is not None:
             image = self.transform(image)
