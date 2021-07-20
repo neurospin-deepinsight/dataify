@@ -45,7 +45,7 @@ Where to start
 ==============
 
 Examples are available in the
-`gallery <https://dataify.readthedocs.io/en/latest/generated/gallery.html>`_.
+`gallery <https://dataify.readthedocs.io/en/latest/auto_gallery/gallery.html>`_.
 All datasets are described in the
 `API documentation <https://dataify.readthedocs.io/en/latest/generated/dataify.html>`_.
 
