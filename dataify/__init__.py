@@ -36,6 +36,8 @@ def get_datasets():
     """
     datasets = {}
     for name, obj in inspect.getmembers(sys.modules[__name__]):
+        if name == "Dataset":
+            continue
         if inspect.isclass(obj) and issubclass(obj, Dataset):
             datasets[name] = obj
     return datasets
