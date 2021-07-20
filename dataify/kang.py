@@ -57,12 +57,19 @@ class SingleCellRNASeqDataset(Dataset):
         self.data_file = os.path.join(root, "single_cell_rna_sequencing.npz")
         self.download()
         self.data = np.load(self.data_file, mmap_mode="r")
-        trainset, testset = train_test_split(
-            self.data["X"], test_size=0.25, shuffle=True, random_state=seed)
+        tags = [
+            "{0}-{1}-{2}".format(name, cond, type) for name, cond, type in zip(
+                self.data["obs_names"], self.data["obs_conditions"],
+                self.data["obs_cells"])]
+        trainset, testset, trainlabel, testlabel = train_test_split(
+            self.data["X"], tags, test_size=0.25, shuffle=True,
+            random_state=seed, stratify=self.data["obs_conditions"])
         if self.train:
             self.X = trainset
+            self.labels = trainlabel
         else:
             self.X = testset
+            self.labels = testlabel
 
     def download(self):
         """ Download data.
@@ -102,10 +109,14 @@ class SingleCellRNASeqDataset(Dataset):
             dataset = {
                 "X": data.X,
                 "membership_mask": membership_mask.to_numpy(),
-                "obs_names": data.obs_names.to_numpy(),
-                "var_names": data.var_names.to_numpy(),
-                "obs": data.obs.to_numpy(),
-                "annotations": data.varm["annotations"].to_numpy()}
+                "membership_index": membership_mask.index.values.astype(str),
+                "membership_columns":
+                    membership_mask.columns.values.astype(str),
+                "obs_names": data.obs_names.to_numpy().astype(str),
+                "obs_conditions":
+                    data.obs["condition"].to_numpy().astype(str),
+                "obs_cells": data.obs["cell_type"].to_numpy().astype(str),
+                "var_names": data.var_names.to_numpy().astype(str)}
 
             # Save dataset
             np.savez(self.data_file, **dataset)
@@ -115,9 +126,10 @@ class SingleCellRNASeqDataset(Dataset):
 
     def __getitem__(self, idx):
         data = self.X[idx]
+        label = self.labels[idx]
         if self.transform is not None:
             data = self.transform(data)
-        return data
+        return data, label
 
 
 def load_annotations(gmt, genes, min_genes=10):
