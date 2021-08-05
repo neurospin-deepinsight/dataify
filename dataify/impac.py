@@ -90,6 +90,7 @@ class IMPACDataset(Dataset):
             data = []
             sets = {}
             for url in self.urls:
+                print("Downloading '{0}'...".format(url))
                 basename = url.split("/")[-1]
                 name = basename.split(".")[0]
                 local_file = os.path.join(self.root, basename)
@@ -178,6 +179,7 @@ class IMPACDataset(Dataset):
     def _download_fmri_data(self, atlas, outdir):
         zip_file = os.path.join(outdir, atlas + ".zip")
         if not os.path.isfile(zip_file):
+            print("Downloading '{0}'...".format(self.archive.format(atlas)))
             response = requests.get(self.archive.format(atlas))
             with open(zip_file, "wb") as of:
                 of.write(response.content)
