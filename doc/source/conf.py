@@ -75,7 +75,8 @@ sphinx_gallery_conf = {
     "doc_module": "dataify",
     "backreferences_dir": os.path.join("dataify", "gallery"),
     "examples_dirs": os.path.join(os.pardir, "examples"),
-    "gallery_dirs": "auto_gallery"}
+    "gallery_dirs": "auto_gallery",
+    "reference_url": {"dataify": None}}
 
 # Remove some numpy-linked warnings
 numpydoc_show_class_members = False
